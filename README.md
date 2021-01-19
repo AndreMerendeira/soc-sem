@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# SEM_soc
-
-Repository that holds the SEM core integration in the IOb-soc
-=======
 # IOb-SoC
 
 SoC template comprising an open-source RISC-V processor (picorv32), an internal
@@ -167,12 +162,12 @@ make doc-pdfclean [DOC_TYPE=[pb|presentation]]
 If you create a system using IOb-SoC, you will will want to exhaustively test it
 in simulation and FPGA board. The following commands automate this process.
 
-Tho run a series of simulation tests on the simulator selected by the SIMULATOR variable: 
+Tho run a series of simulation tests on the simulator selected by the SIMULATOR variable:
 ```
 make test-simulator
 ```
 
-Tho run a series of simulation tests on the simulators listed in the SIM_LIST variable: 
+Tho run a series of simulation tests on the simulators listed in the SIM_LIST variable:
 ```
 make test-all-simulators
 ```
@@ -219,7 +214,7 @@ Run the test-all-boards target and verify that the test now passes.
 
 ## Cleaning
 
-The following command will clean the selected directories for simulation, FPGA compilation and board run: 
+The following command will clean the selected directories for simulation, FPGA compilation and board run:
 ```
 make clean-all
 ```
@@ -268,4 +263,3 @@ sudo make
 export PATH=$PATH:/path/to/riscv/bin
 ```
 The *export PATH* command should be added to the bottom of your ~/.bashrc, so that you do not have to type it for every session.
->>>>>>> 75e92d428c50a3fc1a4b202532c4c9095f474688
