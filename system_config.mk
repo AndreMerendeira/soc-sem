@@ -34,6 +34,10 @@ INIT_MEM ?=1
 #PERIPHERALS:=UART
 PERIPHERALS ?=UART
 
+#INSTANCES
+INST_DIR := $(ROOT_DIR)/instances
+INSTANCES := UART0 UART1
+
 #
 #SIMULATION
 #
@@ -178,8 +182,8 @@ endif
 
 #create periph serial number
 N_SLAVES:=0
-$(foreach p, $(PERIPHERALS), $(eval $p=$(N_SLAVES)) $(eval N_SLAVES:=$(shell expr $(N_SLAVES) \+ 1)))
-$(foreach p, $(PERIPHERALS), $(eval DEFINE+=$(defmacro)$p=$($p)))
+$(foreach p, $(INSTANCES), $(eval $p=$(N_SLAVES)) $(eval N_SLAVES:=$(shell expr $(N_SLAVES) \+ 1)))
+$(foreach p, $(INSTANCES), $(eval DEFINE+=$(defmacro)$p=$($p)))
 
 #test log
 ifneq ($(TEST_LOG),)
