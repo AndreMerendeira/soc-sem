@@ -1,9 +1,13 @@
 [submodule "submodules/UART"]
 	path = submodules/UART
-	url = git@github.com:IObundle/iob-uart.git
+	url = git@github.com:AndreMerendeira/iob-uart.git
+	branch = multi_inst
 [submodule "submodules/CPU"]
 	path = submodules/CPU
 	url = git@github.com:IObundle/iob-picorv32.git
 [submodule "submodules/CACHE"]
 	path = submodules/CACHE
 	url = git@github.com:IObundle/iob-cache.git
+[submodule "submodules/SEM"]
+	path = submodules/SEM
+	url = git@github.com:AndreMerendeira/iob-sem.git
