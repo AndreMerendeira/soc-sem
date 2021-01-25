@@ -1,16 +1,18 @@
 //instantiate core in system
 
    //
-   // UART
+   // UART 1
    //
-
-   iob_uart uart_1
-     (
+	
+	wire uart1_tx, uart1_rx;
+   	
+   	iob_uart uart_1
+	(
       //RS232 interface
-      .txd       (),
-      .rxd       (),
+      .txd       (uart1_tx),
+      .rxd       (uart1_rx),
       .rts       (),
-      .cts       (),
+      .cts       (1'b1),
 
       //CPU interface
       .clk       (clk),
