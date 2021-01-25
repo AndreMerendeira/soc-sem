@@ -64,7 +64,7 @@ SIM_LIST:=icarus ncsim
 FPGA_DDR_ADDR_W ?=30
 
 #default board
-BOARD ?=CYCLONEV-GT-DK
+BOARD ?=AES-KU040-DB-G 
 
 #Boards for which the FPGA compiler is installed in host
 #LOCAL_FPGA_LIST=CYCLONEV-GT-DK AES-KU040-DB-G
@@ -97,7 +97,7 @@ BOARD_LIST ?=CYCLONEV-GT-DK AES-KU040-DB-G
 #
 #ROOT DIR ON REMOTE MACHINES
 #
-REMOTE_ROOT_DIR ?=sandbox/iob-soc
+REMOTE_ROOT_DIR ?=sandbox/iob-soc-sem
 
 #
 # ASIC COMPILE (WIP)

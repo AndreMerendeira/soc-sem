@@ -90,3 +90,8 @@ set_property IOSTANDARD LVCMOS12 [get_ports {reset}]
 
 #set_property PACKAGE_PIN K20 [get_ports {gpio_push_sw_tri_i[3]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {gpio_push_sw_tri_i[3]}]
+
+
+############ SEM Core ###################
+
+
