@@ -11,3 +11,6 @@
 [submodule "submodules/SEM"]
 	path = submodules/SEM
 	url = git@github.com:AndreMerendeira/iob-sem.git
+[submodule "submodules/TIMER"]
+	path = submodules/TIMER
+	url = git@github.com:AndreMerendeira/iob-timer.git
