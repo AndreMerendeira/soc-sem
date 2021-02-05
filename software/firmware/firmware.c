@@ -9,6 +9,10 @@
 extern volatile char resp_buffer[1300];
 extern volatile unsigned int resp_end;
 
+/*
+Waits for the response from SEM Core
+Response terminated by returning to a state (signaled by "> ")
+*/
 void wait_resp () {
 
 	while (resp_end!=1) { }
@@ -17,6 +21,10 @@ void wait_resp () {
 	resp_end = 0;
 }
 
+/*
+Waits for the response from SEM Core,
+but marks the asked line with "<-----"
+*/
 void wait_resp_w_word (unsigned int word) {
 	unsigned int i, line=0;
 
@@ -25,7 +33,7 @@ void wait_resp_w_word (unsigned int word) {
 	for (i=0; resp_buffer[i] != '\0'; i++) {
 		if(resp_buffer[i]=='\n') {
 			if (line-1==word)
-				uart_printf(" <-----");
+			uart_printf(" <-----");
 			line++;
 		}
 		uart_putc(resp_buffer[i]);
@@ -33,24 +41,57 @@ void wait_resp_w_word (unsigned int word) {
 	resp_end = 0;
 }
 
+/*
+Enters IDLE state and waits for response
+*/
 void idle_cmd() {
 
-  	uart_puts_i(1, "I\r"); //Enter IDLE
+	uart_puts_i(1, "I\r"); //Enter IDLE state
 
- 	wait_resp();
+	wait_resp();
 }
 
+/*
+Enters OBSERVATION state and waits for response
+*/
 void observation_cmd() {
 
-  	uart_puts_i(1, "O\r"); //Enter OBSERVATION
+	idle_cmd();
+	uart_puts_i(1, "O\r"); //Enter OBSERVATION state
 
- 	wait_resp();
+	wait_resp();
 }
 
+/*
+Enters DETECT ONLY state and waits for response
+*/
+void detect_only_cmd() {
+
+	idle_cmd();
+	uart_puts_i(1, "D\r"); //Enter DETECT ONLY state
+
+	wait_resp();
+}
+
+/*
+Enters DIAGNOSTIC SCAN state and waits for response
+*/
+void diagnostic_cmd() {
+
+	idle_cmd();
+	uart_puts_i(1, "U\r"); //Enter DIAGNOSTIC SCAN state
+
+	wait_resp();
+}
+
+/*
+Performs a software reset on the SEM core
+The reset returns an initilization report
+*/
 void reset_cmd() {
 
 	idle_cmd();
-	uart_puts_i(1, "R 04\r"); //Send reset command
+	uart_puts_i(1, "R 00\r"); //Send reset command
 
 	wait_resp();
 }
@@ -59,7 +100,7 @@ void status_cmd() {
 
 	uart_puts_i(1, "S\r"); //Send status command
 
-  	wait_resp();
+	wait_resp();
 }
 
 void query_cmd (unsigned int slr, unsigned int lfa, unsigned int word, unsigned int bit) {
