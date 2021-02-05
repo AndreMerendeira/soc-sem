@@ -10,12 +10,12 @@
 
 
 #FIRMWARE SIZE (LOG2)
-FIRM_ADDR_W ?=15
+FIRM_ADDR_W ?=17
 
 #SRAM SIZE (LOG2)
-SRAM_ADDR_W ?=15
+SRAM_ADDR_W ?=17
 
-#DDR 
+#DDR
 USE_DDR ?=0
 RUN_DDR ?=0
 
@@ -26,7 +26,7 @@ DCACHE_ADDR_W:=24
 BOOTROM_ADDR_W:=11
 
 #PRE-INIT MEMORY WITH PROGRAM AND DATA
-INIT_MEM ?=1
+INIT_MEM ?=0
 
 #PERIPHERAL LIST
 #must match respective submodule or folder name in the submodules directory
@@ -50,7 +50,7 @@ VCD ?=0
 #set according to SIMULATOR
 ifeq ($(SIMULATOR),ncsim)
 	SIM_SERVER ?=micro7.lx.it.pt
-	SIM_USER ?=user19
+	SIM_USER ?=user14
 endif
 
 #simulator used in testing
@@ -64,7 +64,7 @@ SIM_LIST:=icarus ncsim
 FPGA_DDR_ADDR_W ?=30
 
 #default board
-BOARD ?=AES-KU040-DB-G 
+BOARD ?=AES-KU040-DB-G
 
 #Boards for which the FPGA compiler is installed in host
 #LOCAL_FPGA_LIST=CYCLONEV-GT-DK AES-KU040-DB-G
@@ -74,24 +74,17 @@ BOARD ?=AES-KU040-DB-G
 #LOCAL_BOARD_LIST=AES-KU040-DB-G
 
 #set according to FPGA board
-ifeq ($(BOARD),AES-KU040-DB-G)
+
 	BOARD_SERVER ?=baba-de-camelo.iobundle.com
 	BOARD_USER ?=$(USER)
 	FPGA_OBJ ?=synth_system.bit
 	FPGA_LOG ?=vivado.log
 	FPGA_SERVER ?=pudim-flan.iobundle.com
 	FPGA_USER ?=$(USER)
-else #default; ifeq ($(BOARD),CYCLONEV-GT-DK)
-	BOARD_SERVER ?=pudim-flan.iobundle.com
-	BOARD_USER ?=$(USER)
-	FPGA_OBJ ?=output_files/top_system.sof
-	FPGA_LOG ?=output_files/top_system.fit.summary
-	FPGA_SERVER ?=pudim-flan.iobundle.com
-	FPGA_USER ?=$(USER)
-endif
+
 
 #board list for testing
-BOARD_LIST ?=CYCLONEV-GT-DK AES-KU040-DB-G 
+BOARD_LIST ?=CYCLONEV-GT-DK AES-KU040-DB-G
 
 
 #

@@ -5,12 +5,18 @@
    //
 	
 	wire uart1_tx, uart1_rx;
+	wire uart1_interr;
+	
+	assign irq[4] = uart1_interr;
    	
    	iob_uart uart_1
 	(
+			//Interrupt
+      .interrupt (uart1_interr),
+			
       //RS232 interface
-      .txd       (uart1_tx),
-      .rxd       (uart1_rx),
+      .txd       (uart1_txd),
+      .rxd       (uart1_rxd),
       .rts       (),
       .cts       (1'b1),
 

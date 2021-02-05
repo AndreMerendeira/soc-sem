@@ -64,6 +64,12 @@ module system
    output                   trap
    );
 
+	//IRQ Bus
+	wire [31:0] irq;
+   	assign irq[3:0]=0;
+   	assign irq[31:5]=0;
+	
+
    localparam ADDR_W=32;
    localparam DATA_W=32;
    
@@ -101,7 +107,10 @@ module system
         
         //data bus
         .dbus_req(cpu_d_req),
-        .dbus_resp(cpu_d_resp)
+        .dbus_resp(cpu_d_resp),
+        
+        //IRQ
+        .irq(irq)
         );
 
 

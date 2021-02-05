@@ -4,7 +4,7 @@
 	branch = multi_inst
 [submodule "submodules/CPU"]
 	path = submodules/CPU
-	url = git@github.com:IObundle/iob-picorv32.git
+	url = git@github.com:AndreMerendeira/iob-picorv32.git
 [submodule "submodules/CACHE"]
 	path = submodules/CACHE
 	url = git@github.com:IObundle/iob-cache.git

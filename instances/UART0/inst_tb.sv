@@ -4,6 +4,8 @@
      (
       .clk       (clk),
       .rst       (reset),
+      
+      .interrupt (),
 
       .valid     (uart_valid),
       .address   (uart_addr),

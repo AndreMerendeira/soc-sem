@@ -6,6 +6,9 @@
 
    iob_uart uart_0
      (
+     
+      .interrupt (),
+      
       //RS232 interface
       .txd       (uart_txd),
       .rxd       (uart_rxd),

@@ -16,10 +16,10 @@ endif
 $(foreach p, $(PERIPHERALS), $(eval include $(SUBMODULES_DIR)/$p/software/embedded/embedded.mk))
 
 #HEADERS
-HDR+=periphs.h
+HDR+=periphs.h irq.h
 
 #SOURCES
-SRC+= firmware.S firmware.c $(UART_DIR)/software/uart_io.c
+SRC+= firmware.S custom_ops.S irq.c firmware.c $(UART_DIR)/software/uart_io.c
 SRC+= $(UART_DIR)/software/printf.c
 
 #RULES

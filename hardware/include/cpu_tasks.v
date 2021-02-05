@@ -2,6 +2,76 @@
    // CPU TASKS
    //
 
+	
+	 // 1-cycle write
+   task cpu_uart1write;
+      input [3:0]  cpu_address;
+      input [31:0] cpu_data;
+
+      # 1 uart1_addr = cpu_address;
+      uart1_valid = 1;
+      uart1_wstrb = 1;
+      uart1_wdata = cpu_data;
+      @ (posedge clk) #1 uart1_wstrb = 0;
+      uart1_valid = 0;
+   endtask //cpu_uartwrite
+
+   // 2-cycle read
+   task cpu_uart1read;
+      input [3:0]   cpu_address;
+      output [31:0] read_reg;
+
+      # 1 uart1_addr = cpu_address;
+      uart1_valid = 1;
+      @ (posedge clk) #1 read_reg = uart1_rdata;
+      @ (posedge clk) #1 uart1_valid = 0;
+   endtask //cpu_uartread
+   
+   task cpu_inituart1;
+      //pulse reset uart
+      cpu_uart1write(`UART_SOFT_RESET, 1);
+      cpu_uart1write(`UART_SOFT_RESET, 0);
+      //config uart div factor
+      cpu_uart1write(`UART_DIV, `FREQ/`BAUD);
+      //enable uart for receiving
+      cpu_uart1write(`UART_RXEN, 1);
+      cpu_uart1write(`UART_TXEN, 1);
+   endtask
+   
+   reg [7:0] rxread_reg1 = 8'b0;
+   
+   task cpu1_getchar;
+      output [7:0] rcv_char;
+
+      //wait until something is received
+      do
+	    cpu_uart1read(`UART_READ_VALID, rxread_reg1);
+      while(!rxread_reg1);
+
+      //read the data
+      cpu_uart1read(`UART_DATA, rxread_reg1);
+
+      rcv_char = rxread_reg1[7:0];
+   endtask
+
+
+   task cpu1_putchar;
+      input [7:0] send_char;
+      //wait until tx ready
+      do begin
+	 			cpu_uart1read(`UART_WRITE_WAIT, rxread_reg1);
+      end while(rxread_reg1);
+      //write the data
+      cpu_uart1write(`UART_DATA, send_char);
+
+   endtask
+   
+   
+   
+   
+   
+   
+
    // 1-cycle write
    task cpu_uartwrite;
       input [3:0]  cpu_address;
@@ -188,6 +258,7 @@
       cpu_getchar(cpu_char);
       while(cpu_char != `ETX && cpu_char != `ENQ) begin
          $write("%c", cpu_char);
+         
          cpu_getchar(cpu_char);
       end
 

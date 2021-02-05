@@ -20,13 +20,23 @@ module system_tb;
    reg [7:0] cpu_char = 0;
 
 
-   //tester uart
+   //tester uart 0
    reg       uart_valid;
    reg [`UART_ADDR_W-1:0] uart_addr;
    reg [`DATA_W-1:0]      uart_wdata;
    reg                    uart_wstrb;
    reg [`DATA_W-1:0]      uart_rdata;
    wire                   uart_ready;
+   
+   //tester uart 1
+   reg 										uart1_valid;
+   reg [`UART_ADDR_W-1:0] uart1_addr;
+   reg [`DATA_W-1:0]      uart1_wdata;
+   reg                    uart1_wstrb;
+   reg [`DATA_W-1:0]      uart1_rdata;
+   wire                   uart1_ready;
+   wire terminator;
+   assign terminator = uut.uart_1.data_write_en && uut.uart_1.wdata == 16'd13;
 
    //iterator
    integer                i;
@@ -74,6 +84,39 @@ module system_tb;
 
    end
 
+	
+   /////////////////////////////////////////////
+   // UART1
+   //
+   initial begin
+
+     //init cpu bus signals
+      uart1_valid = 0;
+      uart1_wstrb = 0;
+
+      //wait an arbitray (150) number of cycles 
+      repeat (150) @(posedge clk) #1;
+      
+      // configure uart
+      cpu_inituart1();
+      
+      while (!terminator) begin
+      	# 1;
+      end
+      	repeat (30) @(posedge clk) #1;
+      	
+		cpu1_putchar("I");
+		
+		repeat (1200) @(posedge clk) #1;
+			
+		cpu1_putchar(">");
+		
+		repeat (1200) @(posedge clk) #1;
+			
+		cpu1_putchar(" ");
+			
+   end
+	
    
    //
    // INSTANTIATE COMPONENTS
