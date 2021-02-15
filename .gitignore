@@ -27,6 +27,9 @@ software/bootloader/*
 software/firmware/*
 !software/firmware/firmware.c
 !software/firmware/firmware.S
+!software/firmware/custom_ops.S
+!software/firmware/irq.c
+!software/firmware/irq.h
 !software/firmware/Makefile
 
 software/console/*
