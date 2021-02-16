@@ -61,14 +61,14 @@ if { $USE_DDR < 0 } {
         synth_ip [get_files ./ip/axi_interconnect_0/axi_interconnect_0.xci]
 
     }
-    
+
     if { [file isdirectory "./ip/ddr4_0"] } {
 	read_ip ./ip/ddr4_0/ddr4_0.xci
         report_property [get_files ./ip/ddr4_0/ddr4_0.xci]
     } else {
 
         create_ip -name ddr4 -vendor xilinx.com -library ip -version 2.2 -module_name ddr4_0 -dir ./ip -force
-        
+
         set_property -dict \
         [list \
              CONFIG.C0.DDR4_TimePeriod {1250} \
@@ -83,7 +83,7 @@ if { $USE_DDR < 0 } {
              CONFIG.C0.DDR4_AxiAddressWidth {30} \
              CONFIG.ADDN_UI_CLKOUT1_FREQ_HZ {100} \
              CONFIG.C0.BANK_GROUP_WIDTH {1}] [get_ips ddr4_0]
-	
+
         generate_target all [get_files ./ip/ddr4_0/ddr4_0.xci]
 
         report_property [get_ips ddr4_0]
@@ -91,23 +91,25 @@ if { $USE_DDR < 0 } {
 
         synth_ip [get_files ./ip/ddr4_0/ddr4_0.xci]
     }
-    
+
 }
+
+read_xdc ./sem.xdc
 
  #SEM Core
  	if { ![file isdirectory "./ip"]} {
         file mkdir ./ip
     }
-    
+
     if { [file isdirectory "./ip/sem_ultra_0"] } {
 		read_ip ./ip/sem_ultra_0/sem_ultra_0.xci
         report_property [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
     } else {
 
         create_ip -name sem_ultra -vendor xilinx.com -library ip -version 3.1 -module_name sem_ultra_0 -dir ./ip -force
-        
-       	set_property -dict [list CONFIG.CLOCK_PERIOD {10000} CONFIG.LOCATE_CONFIG_PRIM {core}] [get_ips sem_ultra_0]
-       	
+
+       	set_property -dict [list CONFIG.CLOCK_PERIOD {10000} CONFIG.ENABLE_CLASSIFICATION {true} CONFIG.LOCATE_CONFIG_PRIM {core}] [get_ips sem_ultra_0]
+
 		generate_target all [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
 
         report_property [get_ips sem_ultra_0]
@@ -115,6 +117,8 @@ if { $USE_DDR < 0 } {
 
         synth_ip [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
     }
+
+
 
 read_xdc ./synth_system.xdc
 
@@ -133,3 +137,7 @@ report_timing
 write_bitstream -force synth_system.bit
 
 write_verilog -force synth_system.v
+
+source ./makedata.tcl
+
+makedata -ebd synth_system.ebd datafile
