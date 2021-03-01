@@ -95,26 +95,28 @@ if { $USE_DDR < 0 } {
 }
 
  #SEM Core
- 	if { ![file isdirectory "./ip"]} {
-        file mkdir ./ip
-    }
-    
-    if { [file isdirectory "./ip/sem_ultra_0"] } {
-		read_ip ./ip/sem_ultra_0/sem_ultra_0.xci
-        report_property [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
-    } else {
+ 	read_xdc ./sem.xdc
+ 	
+	if { ![file isdirectory "./ip"]} {
+		file mkdir ./ip
+	}
 
-        create_ip -name sem_ultra -vendor xilinx.com -library ip -version 3.1 -module_name sem_ultra_0 -dir ./ip -force
-        
-       	set_property -dict [list CONFIG.CLOCK_PERIOD {10000} CONFIG.LOCATE_CONFIG_PRIM {core}] [get_ips sem_ultra_0]
-       	
+	if { [file isdirectory "./ip/sem_ultra_0"] } {
+		read_ip ./ip/sem_ultra_0/sem_ultra_0.xci
+		report_property [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
+	} else {
+
+		create_ip -name sem_ultra -vendor xilinx.com -library ip -version 3.1 -module_name sem_ultra_0 -dir ./ip -force
+		
+   	set_property -dict [list CONFIG.CLOCK_PERIOD {10000} CONFIG.LOCATE_CONFIG_PRIM {core}] [get_ips sem_ultra_0]
+	   	
 		generate_target all [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
 
-        report_property [get_ips sem_ultra_0]
-        report_property [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
+		report_property [get_ips sem_ultra_0]
+		report_property [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
 
-        synth_ip [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
-    }
+		synth_ip [get_files ./ip/sem_ultra_0/sem_ultra_0.xci]
+	}
 
 read_xdc ./synth_system.xdc
 
