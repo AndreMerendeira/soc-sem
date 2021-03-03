@@ -83,9 +83,9 @@ create_clock -name clk -period 10.0 [get_ports clk]
 ## The following are asynchronous and received by
 ## synchronizers for proper synchronization.
 
-set_false_path -from [get_pins {example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_prerror/sync_a/D}]
-set_false_path -from [get_pins {example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_prdone/sync_a/D}]
-set_false_path -from [get_pins {example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_avail/sync_a/D}]
+set_false_path -from [get_pins {system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_prerror/sync_a/D}]
+set_false_path -from [get_pins {system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_prdone/sync_a/D}]
+set_false_path -from [get_pins {system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_icape3/CLK}] -to [get_pins {example_support_wrapper/example_support/inst/sem_controller/controller/controller_synchro_icap_avail/sync_a/D}]
 
 ########################################
 ## Example Design: UART Pin Timing
@@ -124,10 +124,10 @@ set_output_delay -clock clk 0 [get_ports uart_tx] -min
 ## If the SPI Pin assignments are for User I/O, better
 ## performance may be obtained by packing into IOB.
 
-#set_property IOB TRUE [get_cells example_support_wrapper/example_spi/example_spi_byte/spi_c_ofd]
-#set_property IOB TRUE [get_cells example_support_wrapper/example_spi/example_spi_byte/spi_d_ofd]
-#set_property IOB TRUE [get_cells example_support_wrapper/example_spi/example_spi_byte/spi_q_ifd]
-#set_property IOB TRUE [get_cells example_support_wrapper/example_spi/spi_s_ofd]
+#set_property IOB TRUE [get_cells system/sem_ultra/example_support_wrapper/example_spi/example_spi_byte/spi_c_ofd]
+#set_property IOB TRUE [get_cells system/sem_ultra/example_support_wrapper/example_spi/example_spi_byte/spi_d_ofd]
+#set_property IOB TRUE [get_cells system/sem_ultra/example_support_wrapper/example_spi/example_spi_byte/spi_q_ifd]
+#set_property IOB TRUE [get_cells system/sem_ultra/example_support_wrapper/example_spi/spi_s_ofd]
 
 ########################################
 ## Example Design: Logic Placement
@@ -137,14 +137,14 @@ create_pblock sem
 resize_pblock [get_pblocks sem] -add {SLICE_X82Y75:SLICE_X87Y89}
 resize_pblock [get_pblocks sem] -add {RAMB36_X8Y14:RAMB36_X8Y17}
 resize_pblock [get_pblocks sem] -add {DSP48E2_X15Y30:DSP48E2_X15Y35}
-#add_cells_to_pblock -pblock sem -cells [get_cells example_support_wrapper/example_spi/*]
-add_cells_to_pblock -pblock sem -cells [get_cells example_support_wrapper/example_uart/*]
-add_cells_to_pblock -pblock sem -cells [get_cells example_support_wrapper/example_support/inst/sem_controller/*]
+#add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_spi/*]
+add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_uart/*]
+add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_support/inst/sem_controller/*]
 
 # Force FRAME_ECC to the site in this SLR.
-set_property LOC CONFIG_SITE_X0Y0 [get_cells example_support_wrapper/example_support/inst/example_cfg/cfg_frame_ecce3]
+set_property LOC CONFIG_SITE_X0Y0 [get_cells system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_frame_ecce3]
 # Force ICAP to the site in this SLR.
-set_property LOC CONFIG_SITE_X0Y0 [get_cells example_support_wrapper/example_support/inst/example_cfg/cfg_icape3]
+set_property LOC CONFIG_SITE_X0Y0 [get_cells system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_icape3]
 
 
 ########################################

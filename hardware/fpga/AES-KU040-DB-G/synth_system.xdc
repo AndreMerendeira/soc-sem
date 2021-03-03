@@ -94,4 +94,11 @@ set_property IOSTANDARD LVCMOS12 [get_ports {reset}]
 
 ############ SEM Core ###################
 
+create_pblock RISCV
+add_cells_to_pblock [get_pblocks RISCV] [get_cells -quiet [list system/cpu system/dbus_split system/ibus_split system/int_mem0 system/pbus_split system/timer system/uart_0 system/uart_1]]
+resize_pblock [get_pblocks RISCV] -add {SLICE_X0Y0:SLICE_X8Y59}
+resize_pblock [get_pblocks RISCV] -add {DSP48E2_X0Y0:DSP48E2_X0Y23}
+resize_pblock [get_pblocks RISCV] -add {RAMB18_X0Y0:RAMB18_X1Y23}
+resize_pblock [get_pblocks RISCV] -add {RAMB36_X0Y0:RAMB36_X1Y11}
+
 
