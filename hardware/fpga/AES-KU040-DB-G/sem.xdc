@@ -133,6 +133,7 @@ set_output_delay -clock clk 0 [get_ports uart_tx] -min
 ## Example Design: Logic Placement
 ########################################
 
+
 create_pblock sem
 resize_pblock [get_pblocks sem] -add {SLICE_X82Y75:SLICE_X87Y89}
 resize_pblock [get_pblocks sem] -add {RAMB36_X8Y14:RAMB36_X8Y17}
@@ -140,7 +141,6 @@ resize_pblock [get_pblocks sem] -add {DSP48E2_X15Y30:DSP48E2_X15Y35}
 #add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_spi/*]
 add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_uart/*]
 add_cells_to_pblock -pblock sem -cells [get_cells system/sem_ultra/example_support_wrapper/example_support/inst/sem_controller/*]
-
 # Force FRAME_ECC to the site in this SLR.
 set_property LOC CONFIG_SITE_X0Y0 [get_cells system/sem_ultra/example_support_wrapper/example_support/inst/example_cfg/cfg_frame_ecce3]
 # Force ICAP to the site in this SLR.
@@ -151,11 +151,7 @@ set_property LOC CONFIG_SITE_X0Y0 [get_cells system/sem_ultra/example_support_wr
 ## Example Design: Pin Placement Example
 ## Syntax
 ########################################
-
-#set_property PACKAGE_PIN <package pin> [get_ports clk]
-#set_property PACKAGE_PIN <package pin> [get_ports uart_rx]
-#set_property PACKAGE_PIN <package pin> [get_ports uart_tx]
-
+############### SPI Ports #################
 #set_property PACKAGE_PIN H12 [get_ports spi_holdn]
 #set_property PACKAGE_PIN J11 [get_ports spi_wpn]
 #set_property PACKAGE_PIN H11 [get_ports spi_q]
@@ -176,7 +172,7 @@ set_property LOC CONFIG_SITE_X0Y0 [get_cells system/sem_ultra/example_support_wr
 
 ## This property enables essential bits generation in Vivado.
 
-#set_property bitstream.seu.essentialbits yes [current_design]
+set_property bitstream.seu.essentialbits yes [current_design]
 
 #############################################################################
 ##

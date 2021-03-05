@@ -2,11 +2,15 @@
 #include "system.h"
 #include "periphs.h"
 #include "sem.h"
+//#include "iob_adder.h"
 
 #define N 10
 
 void main()
 {
+	int a,b;
+ 	a=10;
+  	b=5;
 	unsigned int i;
 	unsigned int v [N];
 	unsigned int bit;
@@ -21,12 +25,19 @@ void main()
 	reset_cmd();
 
 	status_cmd();
-
+	//Adder usage
+	/*
+	adder_init(ADDER1_BASE);
+  	adder_send(a,b);
+  	printf_("%d+%d=%d\n\n",a,b,adder_get());
+	*/
+	
 	//slr 0, frame 0, word 61, bit 0
 	//query_cmd(0,0,61,0);
-  for(frame=3450; frame <4000; frame++) {
-    for(word=0; word<123; word++){
-      if(word!=60 && word!=61) {
+
+  for(frame=7000; frame <10000; frame++) {
+    for(word=30; word<80; word++){ //Most errors "break" riscv between word 30 and 80
+      if(word!=60 && word!=61) {  //ignore words 60 and 61 (ECC value)
 	      for (bit=0; bit<32; bit++) {
 	        //flip bit at slr 0, frame 0, word <word>, bit <bit>
 	        err_injection_cmd(0,frame,word,bit);
