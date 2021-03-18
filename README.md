@@ -4,9 +4,7 @@ SoC template comprising an open-source RISC-V processor (picorv32), an internal
 SRAM memory subsystem, 2 UARTs (iob-uart), a SEM core that communicates with the processor via UART_1 and an optional external DDR memory
 subsystem. The system also includes 16 32-bits Adders groupped in groups of 4 localized in the 4 corners of the device.
 
-An example of a program that 
-
-A program comprising of the injection of an error in Adder2 (placed in the bottom-left corner) is available at firmware.c and the result of this program can be found in adder2_err_injection.log .
+An example of a program comprising of the injection of an error in Adder2 (placed in the bottom-left corner) is available at firmware.c and the result of this program can be found in adder2_err_injection.log .
 
 ## Clone the repository
 
