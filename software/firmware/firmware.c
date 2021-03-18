@@ -4,19 +4,15 @@
 #include "sem.h"
 #include "iob_adder.h"
 
-#define N 10
-
 void main()
 {
   resp_end=0;
-  int a,b, result;
- 	a=10;
-  b=5;
+  int result;
 	unsigned int i;
 	unsigned int bit;
 	unsigned int word;
 	unsigned int frame;
-  //Adder init
+  //init the Adders
   adder_init_i(0, ADDER1_BASE);
   adder_init_i(1, ADDER2_BASE);
   adder_init_i(2, ADDER3_BASE);
@@ -41,46 +37,20 @@ void main()
 	reset_cmd();
 
 	status_cmd();
-
-/*
+  //query the frame
+  query_cmd(0,36,1,21);
+  //inject error at slr 0, frame 36, word 1, bit 21
   err_injection_cmd(0, 36,1,21);
+  //Test the 16 adders
   for(i=0;i<16;i++) {
-    adder_send_i(i,a,i);
-    if (result=adder_get_i(i)!=a+i) {
+    adder_send_i(i,10,5);
+    if (result=adder_get_i(i)!=10+5) {
       printf_("\n\n!!!! ERROR FOUND at ADDER%d!!!!\n", i+1);
-      printf_("%d+%d=%d!=%d\n\n",a, i, a+i, result);
-      uart_finish();
-      return;
-    }
-  }
-*/
-	//slr 0, frame 0, word 61, bit 0
-	//query_cmd(0,0,61,0);
-
-  for(frame=26000; frame>7000; frame--) {
-    for(word=0; word<123; word++){ //Most errors "break" riscv between word 30 and 80
-      if(word!=60 && word!=61) {  //ignore words 60 and 61 (ECC value)
-	      for (bit=0; bit<32; bit++) {
-	        //flip bit at slr 0, frame 0, word <word>, bit <bit>
-	        err_injection_cmd(0,frame,word,bit);
-
-          for(i=0;i<16;i++) {
-            adder_send_i(i,a,i);
-            if (result=adder_get_i(i)!=a+i) {
-              printf_("%d.%d.%d\t", frame, word, bit);
-              printf_("ADDER%d\n\n", i+1);
-              err_injection_cmd(0,frame,word,bit); //Correct the error
-              //printf_("%d+%d=%d!=%d\n\n",a, i, a+i, result);
-              //uart_finish();
-              //return;
-            }
-          }
-        }
-      }
+      printf_("10+5!=%d\n\n", result);
     }
   }
 	//check if bit was flipped
-	//query_cmd(0,0,61,0);
+	query_cmd(0,36,1,21);
 
 	observation_cmd();
 

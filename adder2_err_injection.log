@@ -1,0 +1,347 @@
+make -C ./software/firmware run
+make[1]: Entering directory '/home/amerendeira/sandbox/soc-sem/software/firmware'
+is_diff=`diff -q periphs.h periphs_tmp.h`; if [ 'is_diff' ]; then cp periphs_tmp.h periphs.h; fi
+riscv64-unknown-elf-gcc -o firmware.elf -Os -nostdlib -march=rv32im -mabi=ilp32 --specs=nano.specs -Wl,-Bstatic,-T,../template.lds,-Map,firmware.map,--strip-debug -DBOOTROM_ADDR_W=11 -DSRAM_ADDR_W=16 -DFIRM_ADDR_W=16 -DDCACHE_ADDR_W=24 -DN_SLAVES=20 -DE=31  -DP=31 -DB=30 -DBAUD=115200 -DFREQ=100000000 -DUART0=0 -DUART1=1 -DSEM=2 -DTIMER=3 -DADDER1=4 -DADDER2=5 -DADDER3=6 -DADDER4=7 -DADDER5=8 -DADDER6=9 -DADDER7=10 -DADDER8=11 -DADDER9=12 -DADDER10=13 -DADDER11=14 -DADDER12=15 -DADDER13=16 -DADDER14=17 -DADDER15=18 -DADDER16=19 -I../../software -I. -I../../submodules/UART/software -I../../submodules/TIMER/submodules/INTERCON/software -I../../submodules/SEM/software -I../../submodules/TIMER/software -I../../submodules/ADDER/software ../../submodules/UART/software/iob-uart.c ../../submodules/UART/software/embedded/iob-uart-platform.c ../../submodules/SEM/software/embedded/sem_platform.c ../../submodules/TIMER/software/embedded/iob_timer.c ../../submodules/ADDER/software/embedded/iob_adder.c firmware.S custom_ops.S irq.c firmware.c ../../submodules/UART/software/uart_io.c ../../submodules/UART/software/printf.c -lgcc -lc -lnosys
+riscv64-unknown-elf-objcopy -O binary firmware.elf firmware.bin
+make[1]: Leaving directory '/home/amerendeira/sandbox/soc-sem/software/firmware'
+ssh amerendeira@baba-de-camelo.iobundle.com 'if [ ! -d sandbox/iob-soc-sem ]; then mkdir -p sandbox/iob-soc-sem; fi'
+rsync -avz --exclude .git . baba-de-camelo.iobundle.com:sandbox/iob-soc-sem
+sending incremental file list
+./
+adder2_err_injection.log
+hardware/fpga/AES-KU040-DB-G/
+hardware/fpga/AES-KU040-DB-G/.Xil/
+software/firmware/
+software/firmware/firmware.bin
+software/firmware/firmware.elf
+software/firmware/firmware.map
+software/firmware/periphs.h
+
+sent 34,028 bytes  received 1,553 bytes  23,720.67 bytes/sec
+total size is 33,664,115  speedup is 946.13
+bash -c "trap 'make kill-remote-console' EXIT; ssh amerendeira@baba-de-camelo.iobundle.com 'cd sandbox/iob-soc-sem; make -C ./software/console run INIT_MEM=0 TEST_LOG= BAUD=115200  BOARD=AES-KU040-DB-G'"
+make: Entering directory `/home/amerendeira/sandbox/iob-soc-sem/software/console'
+cp ../../software/firmware/firmware.bin firmware.bin
+./console -s /dev/ttyUSB0 -f 
+
++-----------------------------------------------+
+|                   IOb-Console                 |
++-----------------------------------------------+
+
+  BaudRate = 115200 
+  StopBits = 1 
+  Parity   = None
+
+IOb-Console: ENQ symbol received from target
+IOb-Console: Connected to target
+IOb-UART: started...
+IOb-UART: Loading file...
+IOb-Console: starting to load firmware with 32252 bytes...
+IOb-Console: file loading complete
+IOb-Console: Firmware sent to target
+IOb-Console: Sending RUN command to target
+IOb-Console: RUN command sent to target
+IOb-UART: File loaded
+IOb-UART: Restart CPU to run user program...
+I
+SC 00
+I> R 00
+SEM_ULTRA_V3_1
+SC 01
+FS 04
+AF 01
+ICAP OK
+RDBK OK
+INIT OK
+SC 02
+O> I
+SC 00
+I> S
+SN 00
+SC 00
+FC 00
+RI 00
+MF 00006643
+TS 0000017B
+TB XXXXXXXX
+CB XXXXXXXX
+CL 001
+I> Q C000024035
+01000000
+00200200 <-----
+01210000
+01000020
+80802100
+00200000
+00010000
+01002100
+00210220
+00000100
+21800000
+00080000
+21200120
+00000080
+00008201
+01200821
+20000000
+00002001
+01020200
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000020
+180A318A
+00001820
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+I> N C000024035
+SC 10
+SC 00
+I> 
+
+!!!! ERROR FOUND at ADDER2!!!!
+10+5!=1
+
+Q C000024035
+01000000
+00000200 <-----
+01210000
+01000020
+80802100
+00200000
+00010000
+01002100
+00210220
+00000100
+21800000
+00080000
+21200120
+00000080
+00008201
+01200821
+20000000
+00002001
+01020200
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000020
+180A318A
+00001820
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+00000000
+I> O
+SC 02
+O> 
+RI 00
+SC 04
+ECC
+TS 00000185
+PA 000010A
+LA 0000024
+COR
+WD 01 BT 15
+END
+FC 00
+SC 08
+FC 40
+SC 02
+O> 
+
+make: Leaving directory `/home/amerendeira/sandbox/iob-soc-sem/software/console'
+make[1]: Entering directory '/home/amerendeira/sandbox/soc-sem'
+INFO: Remote console will be killed; ignore following errors
+ssh amerendeira@baba-de-camelo.iobundle.com 'cd sandbox/iob-soc-sem; kill -9 `pgrep -a console`'
+make[1]: Leaving directory '/home/amerendeira/sandbox/soc-sem'
