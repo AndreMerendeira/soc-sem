@@ -50,14 +50,14 @@ $(SIM_DIR)/../waves.gtkw $(SIM_DIR)/system.vcd:
 	make sim INIT_MEM=$(INIT_MEM) USE_DDR=$(USE_DDR) RUN_DDR=$(RUN_DDR) VCD=$(VCD)
 
 sim-clean: sw-clean
-	make -C $(SIM_DIR) clean 
+	make -C $(SIM_DIR) clean
 ifneq ($(SIMULATOR),$(filter $(SIMULATOR), $(LOCAL_SIM_LIST)))
 	rsync -avz --exclude .git $(ROOT_DIR) $(SIM_USER)@$(SIM_SERVER):$(REMOTE_ROOT_DIR)
 	ssh $(SIM_USER)@$(SIM_SERVER) 'if [ -d $(REMOTE_ROOT_DIR) ]; then cd $(REMOTE_ROOT_DIR); make -C $(SIM_DIR) clean; fi'
 endif
 
 #
-# FPGA COMPILE 
+# FPGA COMPILE
 #
 
 fpga: system.mk
@@ -99,7 +99,7 @@ ifeq ($(BOARD),$(filter $(BOARD), $(LOCAL_BOARD_LIST)))
 	make -C $(BOARD_DIR) load
 else
 	ssh $(BOARD_USER)@$(BOARD_SERVER) 'if [ ! -d $(REMOTE_ROOT_DIR) ]; then mkdir -p $(REMOTE_ROOT_DIR); fi'
-	rsync -avz --exclude .git $(ROOT_DIR) $(BOARD_USER)@$(BOARD_SERVER):$(REMOTE_ROOT_DIR) 
+	rsync -avz --exclude .git $(ROOT_DIR) $(BOARD_USER)@$(BOARD_SERVER):$(REMOTE_ROOT_DIR)
 	ssh $(BOARD_USER)@$(BOARD_SERVER) 'cd $(REMOTE_ROOT_DIR); make -C $(BOARD_DIR) load'
 endif
 
@@ -282,6 +282,18 @@ ifneq ($(shell hostname), $(ASIC_SERVER))
 endif
 
 
+#
+# ACME
+#
+
+acme:
+	make -C software/ACME all
+	cp software/ACME/frameRange.txt software/firmware/.
+
+acme-clean:
+	make -C software/ACME clean
+
+
 # CLEAN ALL
 clean-all: sim-clean fpga-clean asic-clean board-clean doc-clean
 
@@ -295,4 +307,3 @@ clean-all: sim-clean fpga-clean asic-clean board-clean doc-clean
 	test test-all-simulators test-simulator test-all-boards test-board test-board-config \
 	asic asic-mem asic-synth asic-sim-synth asic-clean \
 	all clean-all kill-remote-console
-

@@ -37,6 +37,11 @@ software/console/*
 !software/console/console.h
 !software/console/Makefile
 
+#ACME
+software/ACME/Acme
+software/ACME/synth_system.ebd
+software/ACME/frameRange.txt
+
 document/presentation/*
 !document/presentation/figures
 !document/presentation/presentation.bib
