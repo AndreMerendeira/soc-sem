@@ -288,7 +288,7 @@ endif
 
 acme:
 	make -C software/ACME all
-	cp software/ACME/frameRange.txt software/firmware/.
+	cp software/ACME/frameRange.txt software/console/.
 
 acme-clean:
 	make -C software/ACME clean

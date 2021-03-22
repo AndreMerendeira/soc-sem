@@ -21,6 +21,7 @@ HDR+=periphs.h irq.h
 #SOURCES
 SRC+= firmware.S custom_ops.S irq.c firmware.c $(UART_DIR)/software/uart_io.c
 SRC+= $(UART_DIR)/software/printf.c
+SRC+= $(UART_DIR)/software/filetxrx.c
 
 #RULES
 run: firmware.elf
@@ -37,7 +38,7 @@ periphs.h: periphs_tmp.h
 periphs_tmp.h:
 	$(foreach p, $(INSTANCES), $(shell echo "#define $p_BASE (1<<$P) |($p<<($P-N_SLAVES_W))" >> $@) )
 
-clean: gen-clean 
+clean: gen-clean
 	@rm -rf firmware.bin firmware.elf firmware.map *.hex ../periphs.h
 
 .PHONY: run clean subs periphs_tmp.h

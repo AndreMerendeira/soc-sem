@@ -101,6 +101,8 @@ int injectionRange(vector<bitset<BITS_IN_LINE>> EBDlines, vector<int> fileRange,
 		}
 	}
 
+  //Place X to signal EOF
+  injectionFile << "X" << endl;
 	// Close Output File
 	injectionFile.close();
 
