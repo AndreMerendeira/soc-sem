@@ -65,6 +65,7 @@ fpga: system.mk
 	make -C $(BOOT_DIR) run BAUD=$(HW_BAUD)
 ifeq ($(BOARD),$(filter $(BOARD), $(LOCAL_FPGA_LIST)))
 	make -C $(BOARD_DIR) compile BAUD=$(HW_BAUD)
+	mv $(BOARD_DIR)/synth_system.ebd software/ACME/.
 else
 	ssh $(FPGA_USER)@$(FPGA_SERVER) 'if [ ! -d $(REMOTE_ROOT_DIR) ]; then mkdir -p $(REMOTE_ROOT_DIR); fi'
 	rsync -avz --exclude .git $(ROOT_DIR) $(FPGA_USER)@$(FPGA_SERVER):$(REMOTE_ROOT_DIR)
@@ -72,6 +73,7 @@ else
 ifneq ($(FPGA_SERVER),localhost)
 	scp $(FPGA_USER)@$(FPGA_SERVER):$(REMOTE_ROOT_DIR)/$(BOARD_DIR)/$(FPGA_OBJ) $(BOARD_DIR)
 	scp $(FPGA_USER)@$(FPGA_SERVER):$(REMOTE_ROOT_DIR)/$(BOARD_DIR)/$(FPGA_LOG) $(BOARD_DIR)
+	scp $(FPGA_USER)@$(FPGA_SERVER):$(REMOTE_ROOT_DIR)/$(BOARD_DIR)/synth_system.ebd software/ACME/.
 endif
 endif
 
