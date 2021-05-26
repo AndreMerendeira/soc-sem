@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 //#include <tchar.h>
+#define MAX_PATH 640
 
 
 

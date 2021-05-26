@@ -49,7 +49,7 @@ void main()
 
 	status_cmd();
 
-  uart_getfile("frameRange.txt", INPUT_FILE);
+  uart_getfile("injectionRange.txt", INPUT_FILE);
 
   for(line=0;;line++) {
     if (INPUT_FILE[line*11]=='X')

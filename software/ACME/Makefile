@@ -1,7 +1,7 @@
 CC := g++
 INCLUDE = -I.
 
-CSRCS := Acme.cpp bin2hex.cpp dec2bin.cpp injectionRange.cpp pBlockRange.cpp stdafx.cpp welcome.cpp
+CSRCS := *.cpp
 TRGT := Acme
 CHDRS :=mainHeader.h resource.h stdafx.h
 
@@ -15,6 +15,6 @@ run: $(TRGT)
 
 clean:
 	@rm -f *# *~ $(TRGT)
-	@rm -f frameRange.txt synth_system.ebd
+	@rm -f injectionRange.txt synth_system.ebd
 
 .PHONY: all run clean

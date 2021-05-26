@@ -29,85 +29,42 @@
 //---------------------------------------------------------------------------------------
 int main()
 {
-	//----------------------
+	//-------------------------------------------
 	// Variables Definition
-	//----------------------
-	vector<string> names;						// EBD Vector Names
+	//-------------------------------------------
 	vector<int> coordinates;					// Input Vector with pBlock Coordinates
-	vector<int> fileRange;						// Vector with EBD File pBlock Ranges
-	vector<bitset<BITS_IN_LINE>> EBDlines;		// 32-bits Vector with EBD File Lines
-	ifstream EBDfile;							// Stream File
-	string fileLine;							// EBD File Line
-	int lineMin = 0, lineMax = 0, pairMax = 0;	// EBD File Line Min-Max Ranges
-	int frames = 0;								// Number of Frames Extracted from the EBD File
+	vector<int> frames;							// Vector with Starting and Ending Frames to Read from the EBD File
+	vector<int> words;							// Vector with the First and Last Words to Read
+	string name = "synth_system.ebd";								// EBD File Name
+	int clk_regions = 0;						// Number of Different Clock Regions in which the Design is
+	int addresses = 0;							// Number of Injection Addresses Created
 
-	//----------------------------------------
+	//-------------------------------------------
 	// Print Welcome Message and Instructions
-	//----------------------------------------
+	//-------------------------------------------
 	coordinates = welcome();
 
-	//----------------------------------------
-	// Calculate pBlock File Range
-	//----------------------------------------
-	fileRange = pBlockRange(coordinates, pairMax);
+	//-------------------------------------------
+	// Calculate Frames and Words to Read
+	//-------------------------------------------
+	cout << " Obtaining frames   ...";
+	frames = ebdFrames(coordinates, words, clk_regions);
+	cout << "  Done" << endl;
 
-	//----------------------------------------
-	// Obtain EBD File Names
-	//----------------------------------------
-	//names = ebdNames();
-
-	//----------------------------------------
-	// Read and Store EBD Files
-	//----------------------------------------
-	cout << " Reading files   ...";
-	// Open File
-	EBDfile.open("synth_system.ebd", ifstream::in);
-
-  if (EBDfile.fail()) {
-        cout << "Couldn't open the synth_system.ebd file!" << endl;
-        return 0;
-  }
-
-	// Process pBlock File Range
-	for (int i = 0; i < pairMax; i++) {
-		// Skip File Header
-		for (int j = 0; j < 8; j++) {
-			getline(EBDfile, fileLine);
-		}
-
-		// Get Line Ranges
-		lineMin = fileRange.at(2 * i);
-		lineMax = fileRange.at(2 * i + 1);
-
-		// Go to File Position lineMin and Read this Number of Lines
-		EBDfile.seekg((BITS_IN_LINE + 2)*lineMin, ios_base::cur);
-		for (int k = lineMin; k <= lineMax; k++) {
-			// Get Line
-			getline(EBDfile, fileLine);
-			EBDlines.push_back(bitset<BITS_IN_LINE>(fileLine));
-		}
-		// Go to Beginning of File
-		EBDfile.seekg(0, ios_base::beg);
-	}
-  // Close File
-  EBDfile.close();
-  cout << "  Done" << endl;
-
-	// Free Vectors
-	vector<string>().swap(names);
+	//-------------------------------------------
+	// Translate Lines from the EBD File
+	//-------------------------------------------
+	cout << " Creating addresses ...";
+	addresses = ebdTranslate(name, coordinates, frames, words, clk_regions);
+	cout << "  Done" << endl;
+	cout << " Addresses created  ...  " << addresses << endl;
 
 	//----------------------------------
-	// Create Injection Range File
-	//----------------------------------
-	cout << " Injection file  ...";
-	frames = injectionRange(EBDlines, fileRange, coordinates, pairMax);
-	cout << "  Done" << endl << endl;
-	cout << " Frames created  : " << frames << endl << endl;
-
 	// Free Vectors
+	//----------------------------------
 	vector<int>().swap(coordinates);
-	vector<int>().swap(fileRange);
-	vector<bitset<BITS_IN_LINE>>().swap(EBDlines);
+	vector<int>().swap(frames);
+	vector<int>().swap(words);
 
 	//----------------------------------
 	// Exit
@@ -117,7 +74,5 @@ int main()
 	cin.clear();
 	cin.ignore(256, '\n');
 	cin.get();
-
-	// Return
 	return 0;
 }

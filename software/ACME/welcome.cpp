@@ -33,42 +33,38 @@ vector<int> welcome()
 	vector<int> coordinates;					// Output Vector with pBlock Coordinates and Board Type
 	int input_val;								// Input Value Read from the User
 	bool error_flag = false;					// Non-valid Input Value
-	int MAX_X, MAX_Y;							// Maximum Range Values
+	int MIN_X, MAX_X, MIN_Y, MAX_Y;				// Minimum and Maximum Range Values
 
-	cout << "/*****************************************************/" << endl;
-	cout << "/**" << "                -  A C M E  -                    " << "**/" << endl;
-	cout << "/**" << "                                                 " << "**/" << endl;
-	cout << "/**" << " usage : EBD files must be in the .exe directory " << "**/" << endl;
-	cout << "/**" << "                                                 " << "**/" << endl;
-	cout << "/**" << "   - Board type:                                 " << "**/" << endl;
-	cout << "/**" << "      (1) ZedBoard    :   X [0,113] - Y [0,149]  " << "**/" << endl;
-	cout << "/**" << "      (2) Basys 3     :   X [0, 65] - Y [0,149]  " << "**/" << endl;
-	cout << "/**" << "      (3) Nexys 4 DDR :   X [0, 89] - Y [0,199]  " << "**/" << endl;
-	cout << "/**" << "      (4) ZC706       :   X [9,171] - Y [0,349]  " << "**/" << endl;
-	cout << "/**" << "      (5) KCU105      :   X [0,100] - Y [0,299]  " << "**/" << endl;
-	cout << "/**" << "                                                 " << "**/" << endl;
-	cout << "/**" << "   - pBlock coordinates:                         " << "**/" << endl;
-	cout << "/**" << "                          (X2,Y2)                " << "**/" << endl;
-	cout << "/**" << "                  -------x                       " << "**/" << endl;
-	cout << "/**" << "                  |      |                       " << "**/" << endl;
-	cout << "/**" << "                  |      |                       " << "**/" << endl;
-	cout << "/**" << "                  |      |                       " << "**/" << endl;
-	cout << "/**" << "                  |      |                       " << "**/" << endl;
-	cout << "/**" << "                  |      |                       " << "**/" << endl;
-	cout << "/**" << "                  x-------                       " << "**/" << endl;
-	cout << "/**" << "           (X1,Y1)                               " << "**/" << endl;
-	cout << "/**" << "                                                 " << "**/" << endl;
-	cout << "/**" << "                         Dr. Luis Aranda Barjola " << "**/" << endl;
-	cout << "/**" << "                      2020 - Universidad Nebrija " << "**/" << endl;
-	cout << "/**" << "                           ARIES Research Center " << "**/" << endl;
-	cout << "/*****************************************************/" << endl;
+	cout << "/****************************************************/" << endl;
+	cout << "/**" << "                -  A C M E  -                   " << "**/" << endl;
+	cout << "/**" << "                                                " << "**/" << endl;
+	cout << "/**" << " usage : EBD file must be in the .exe directory " << "**/" << endl;
+	cout << "/**" << "                                                " << "**/" << endl;
+	cout << "/**" << "   - Supported devices:                         " << "**/" << endl;
+	cout << "/**" << "      (1) KCU105 :    X [50,357] - Y [0,309]    " << "**/" << endl;
+	cout << "/**" << "                                                " << "**/" << endl;
+	cout << "/**" << "   - Design coordinates:                        " << "**/" << endl;
+	cout << "/**" << "       (X Lo,Y Lo)                              " << "**/" << endl;
+	cout << "/**" << "                  x-------                      " << "**/" << endl;
+	cout << "/**" << "                  |      |                      " << "**/" << endl;
+	cout << "/**" << "                  |      |                      " << "**/" << endl;
+	cout << "/**" << "                  |      |                      " << "**/" << endl;
+	cout << "/**" << "                  |      |                      " << "**/" << endl;
+	cout << "/**" << "                  |      |                      " << "**/" << endl;
+	cout << "/**" << "                  -------x                      " << "**/" << endl;
+	cout << "/**" << "                          (X Hi,Y Hi)           " << "**/" << endl;
+	cout << "/**" << "                                                " << "**/" << endl;
+	cout << "/**" << "                        Dr. Luis Alberto Aranda " << "**/" << endl;
+	cout << "/**" << "                     2020 - Universidad Nebrija " << "**/" << endl;
+	cout << "/**" << "                          ARIES Research Center " << "**/" << endl;
+	cout << "/****************************************************/" << endl;
 	cout << endl;
 
 	// Read Board Type
-	cout << "-> Please enter board type: ";
+	cout << "-> Please select device: ";
 	cin >> input_val;
-	while (((cin.fail()) || ((input_val != 1) && (input_val != 2) && (input_val != 3) && (input_val != 4) && (input_val != 5)))) {
-		cout << "-> ERROR, please enter a valid board type: ";
+	while (((cin.fail()) || ((input_val != 1)))) {// && (input_val != 2) && (input_val != 3) && (input_val != 4) && (input_val != 5)))) {
+		cout << "-> ERROR, please enter a valid number: ";
 		cin.clear();
 		cin.ignore(256, '\n');
 		cin >> input_val;
@@ -77,10 +73,12 @@ vector<int> welcome()
 
 	// Set Maximum Range Values
 	if (coordinates.at(0) == 1) {
-		MAX_X = ZB_MAX_X;
-		MAX_Y = ZB_MAX_Y;
+		MIN_X = KCU105_MIN_X;
+		MAX_X = KCU105_MAX_X;
+		MIN_Y = KCU105_MIN_Y;
+		MAX_Y = KCU105_MAX_Y;
 	}
-	else if (coordinates.at(0) == 2) {
+	/*else if (coordinates.at(0) == 2) {
 		MAX_X = B3_MAX_X;
 		MAX_Y = B3_MAX_Y;
 	}
@@ -93,25 +91,25 @@ vector<int> welcome()
 		MAX_Y = ZC706_MAX_Y;
 	}
 	else if (coordinates.at(0) == 5) {
-		MAX_X = KCU105_MAX_X;
-		MAX_Y = KCU105_MAX_Y;
-	}
+		MAX_X = ZEDBOARD_MAX_X;
+		MAX_Y = ZEDBOARD_MAX_Y;
+	}*/
 
-	// Read Input pBlock Coordinates
-	cout << "-> Please enter pBlock coordinates:" << endl;
+	// Read Input Coordinates
+	cout << "-> Please enter design coordinates:" << endl;
 	for (int i = 0; i < 4; i++) {
 		switch (i) {
 		case 0:
-			cout << " X1 = ";
+			cout << " X Lo = ";
 			break;
 		case 1:
-			cout << " Y1 = ";
+			cout << " Y Lo = ";
 			break;
 		case 2:
-			cout << " X2 = ";
+			cout << " X Hi = ";
 			break;
 		default:
-			cout << " Y2 = ";
+			cout << " Y Hi = ";
 		}
 		// Read Value
 		cin >> input_val;
@@ -124,29 +122,29 @@ vector<int> welcome()
 		// Input Value is a Number
 		else {
 			// Check if Input Value is Between Range
-			if ((input_val >= 0) && (input_val <= MAX_X) && ((i == 0) || (i == 2))) {
-				// Check if X1 < X2
+			if ((input_val >= MIN_X) && (input_val <= MAX_X) && ((i == 0) || (i == 2))) {
+				// Check if X Lo < X Hi
 				if (i == 0) {
 					coordinates.push_back(input_val);
 				}
-				else if ((i == 2) && (coordinates.at(1) < input_val)) {
+				else if ((i == 2) && (coordinates.at(1) <= input_val)) {
 					coordinates.push_back(input_val);
 				}
 				else {
-					cout << "-> ERROR, X2 must be bigger than X1." << endl;
+					cout << "-> ERROR, X Hi cannot be lower than X Lo." << endl;
 					error_flag = true;
 				}
 			}
-			else if ((input_val >= 0) && (input_val <= MAX_Y) && ((i == 1) || (i == 3))) {
-				// Check if Y1 < Y2
+			else if ((input_val >= MIN_Y) && (input_val <= MAX_Y) && ((i == 1) || (i == 3))) {
+				// Check if Y Lo < Y Hi
 				if (i == 1) {
 					coordinates.push_back(input_val);
 				}
-				else if ((i == 3) && (coordinates.at(2) < input_val)) {
+				else if ((i == 3) && (coordinates.at(2) <= input_val)) {
 					coordinates.push_back(input_val);
 				}
 				else {
-					cout << "-> ERROR, Y2 must be bigger than Y1." << endl;
+					cout << "-> ERROR, Y Hi cannot be lower than Y Lo." << endl;
 					error_flag = true;
 				}
 			}
@@ -167,11 +165,14 @@ vector<int> welcome()
 	cout << endl;
 
 	// Print Summary
-	cout << " Board type      : ";
+	cout << " --------- " << endl;
+	cout << "  SUMMARY " << endl;
+	cout << " --------- " << endl;
+	cout << " Device  : ";
 	if (coordinates.at(0) == 1) {
-		cout << "ZedBoard" << endl;
+		cout << "KCU105" << endl;
 	}
-	else if (coordinates.at(0) == 2) {
+	/*else if (coordinates.at(0) == 2) {
 		cout << "Basys3" << endl;
 	}
 	else if (coordinates.at(0) == 3) {
@@ -181,9 +182,9 @@ vector<int> welcome()
 		cout << "ZC706" << endl;
 	}
 	else if (coordinates.at(0) == 5) {
-		cout << "KCU105" << endl;
-	}
-	cout << " Selected region : SLICE_X" << coordinates.at(1) << "Y" << coordinates.at(2) << ":SLICE_X" << coordinates.at(3) << "Y" << coordinates.at(4) << endl;
+		cout << "ZedBoard" << endl;
+	}*/
+	cout << " Region  : (" << coordinates.at(1) << "," << coordinates.at(2) << "):(" << coordinates.at(3) << "," << coordinates.at(4) << ")" << endl;
 
 	return coordinates;
 }

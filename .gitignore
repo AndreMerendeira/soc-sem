@@ -40,7 +40,7 @@ software/console/*
 #ACME
 software/ACME/Acme
 software/ACME/synth_system.ebd
-software/ACME/frameRange.txt
+software/ACME/injectionRange.txt
 
 document/presentation/*
 !document/presentation/figures
